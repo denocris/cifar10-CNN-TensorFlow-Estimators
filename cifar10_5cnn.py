@@ -204,7 +204,7 @@ if __name__ == '__main__':
     )
     parser.add_argument(
         '--model-directory',
-        default='/Users/Yak52/Dropbox/CodingLab/TensorFlow/addfor-cifar10/checks-cifar-latest',
+        default='/Users/Yak52/Github/cifar10_cnn/checks-cifar-latest',
         help='Directory where model summaries and checkpoints are stored'
     )
     args = parser.parse_args()
