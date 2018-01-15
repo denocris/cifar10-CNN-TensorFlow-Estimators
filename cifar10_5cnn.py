@@ -1,23 +1,26 @@
+""" Exercise: 5 layer CNN on Cifar-10 (TFRecords) using tf.estimator API
+    Results can be seen on Tensorboard:
+    $ tensorboard --logdir=./folder_where_checkpoints_are_stored
+
+
+"""
 
 from argparse import ArgumentParser
 import os
-import glob # for Unix style pathname pattern expansion
 import tensorflow as tf
-
 
 
 def cnn_model(features, mode, params):
 
     is_training = mode == tf.estimator.ModeKeys.TRAIN
 
-    # The CNN is built in order to be seen in TensorBoards
-    #print("------------- before ---------------- 1", features.get_shape())
+    #print("------------- before ----------------", features.get_shape())
     with tf.name_scope('Input'):
         # Input Layer
         input_layer = tf.reshape(features, [-1, 32, 32, 3], name='input_reshape')
         tf.summary.image('input', input_layer)
-        #print("-------------------------------------------------- 1", input_layer.dtype)
-    #print("------------- after ---------------- 1", input_layer.get_shape())
+    #print("------------- after -----------------", input_layer.get_shape())
+
     with tf.name_scope('Conv_1'):
         # Convolutional Layer #1
         conv1 = tf.layers.conv2d(
@@ -32,6 +35,8 @@ def cnn_model(features, mode, params):
 
         # Pooling Layer #1
         pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=(2, 2), strides=2, padding='same')
+        norm1 = tf.nn.lrn(pool1, 4, bias=1.0, alpha=0.001 / 9.0, beta=0.75, name='norm1')
+
         if params.print_shape:
             # to check the expected shape
             print("------- Conv_1 ----------", pool1.get_shape())
@@ -39,7 +44,7 @@ def cnn_model(features, mode, params):
     with tf.name_scope('Conv_2'):
         # Convolutional Layer #2 and Pooling Layer #2
         conv2 = tf.layers.conv2d(
-            inputs=pool1,
+            inputs=norm1,
             filters=64,
             kernel_size=(5, 5),
             padding='same',
@@ -49,6 +54,8 @@ def cnn_model(features, mode, params):
         tf.summary.histogram('Convolution_layers/conv2', conv2)
 
         pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=(2, 2), strides=2, padding='same')
+        norm2 = tf.nn.lrn(pool1, 4, bias=1.0, alpha=0.001 / 9.0, beta=0.75, name='norm2')
+
         if params.print_shape:
             # to check the expected shape
             print("------- Conv_2 ----------", pool2.get_shape())
@@ -56,8 +63,8 @@ def cnn_model(features, mode, params):
     with tf.name_scope('Conv_3'):
         # Convolutional Layer #3 and Pooling Layer #3
         conv3 = tf.layers.conv2d(
-            inputs=pool2,
-            filters=128,
+            inputs=norm2,
+            filters=96,
             kernel_size=(3, 3),
             padding='same',
             activation=tf.nn.relu,
@@ -65,7 +72,9 @@ def cnn_model(features, mode, params):
             data_format='channels_last')
         tf.summary.histogram('Convolution_layers/conv3', conv3)
 
-        pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=(2, 2), strides=1, padding='same')
+        pool3 = tf.layers.max_pooling2d(inputs=conv3, pool_size=(2, 2), strides=2, padding='same')
+        norm3 = tf.nn.lrn(pool3, 4, bias=1.0, alpha=0.001 / 9.0, beta=0.75, name='norm3')
+
         if params.print_shape:
             # to check the expected shape
             print("------- Conv_3 ----------", pool3.get_shape())
@@ -73,8 +82,8 @@ def cnn_model(features, mode, params):
     with tf.name_scope('Conv_4'):
         # Convolutional Layer #4 and Pooling Layer #4
         conv4 = tf.layers.conv2d(
-            inputs=pool3,
-            filters=96,
+            inputs=norm3,
+            filters=64,
             kernel_size=(3, 3),
             padding='same',
             activation=tf.nn.relu,
@@ -82,7 +91,9 @@ def cnn_model(features, mode, params):
             data_format='channels_last')
         tf.summary.histogram('Convolution_layers/conv4', conv4)
 
-        pool4 = tf.layers.max_pooling2d(inputs=conv4, pool_size=(2, 2), strides=1, padding='same')
+        norm4 = tf.nn.lrn(conv4, 4, bias=1.0, alpha=0.001 / 9.0, beta=0.75, name='norm4')
+        pool4 = tf.layers.max_pooling2d(inputs=norm4, pool_size=(2, 2), strides=1, padding='same')
+
         if params.print_shape:
             # to check the expected shape
             print("------- Conv_4 ----------", pool4.get_shape())
@@ -107,6 +118,7 @@ def cnn_model_fn(features, labels, mode, params):
     logits = cnn_model(features, mode, params)
     predicted_logit = tf.argmax(input=logits, axis=1, output_type=tf.int32)
     scores = tf.nn.softmax(logits, name='softmax_tensor')
+
     # Generate Predictions
     predictions = {
       'classes': predicted_logit,
@@ -139,7 +151,7 @@ def cnn_model_fn(features, labels, mode, params):
             loss=loss,
             global_step=tf.train.get_global_step(),
             learning_rate=params.learning_rate,
-            learning_rate_decay_fn=lambda lr, step: tf.train.exponential_decay(params.learning_rate, tf.train.get_global_step(), 780, 0.94),
+            learning_rate_decay_fn=lambda lr, step: tf.train.exponential_decay(params.learning_rate, tf.train.get_global_step(), 780, 0.94, staircase=True),
             optimizer='Adam')
     else:
         train_op = None
@@ -180,7 +192,7 @@ def data_input_fn(filenames, batch_size=1000, shuffle=False):
         if shuffle:
             dataset = dataset.shuffle(buffer_size=10000)
 
-        dataset = dataset.repeat(None) # Infinite iterations: let experiment determine num_epochs
+        dataset = dataset.repeat(None) 
         dataset = dataset.batch(batch_size)
 
         iterator = dataset.make_one_shot_iterator()
