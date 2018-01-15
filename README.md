@@ -14,6 +14,8 @@ Another standard script to convert data in TFRecords can be found in TFSlim Libr
 $: python cifar10_5cnn.py
 ```
 
+Unfortunately the training was done on my laptop CPU (2,5 GHz Intel Core i5). At the moment I do not have GPUs at my disposal.
+
 Some details about the training:
 
 * Training dataset size = 40000, test dataset size = 10000;
@@ -22,7 +24,7 @@ Some details about the training:
 * learning_rate = 0.0007 exponentially decaying every 10 epochs, batch_size = 256;
 * Loss function is the Softmax-Cross-Entropy;
 * dropout_rate = 0.4 (only in TRAIN mode);
-* Unfortunately the training was done on my laptop CPU (2,5 GHz Intel Core i5).
+
 
 ### STEP THREE: Visualize results on TensorBoard
 ```
