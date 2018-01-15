@@ -1,6 +1,6 @@
 # CNN CIFAR-10
-
-A 5-layer CNN (4 convolutional layers + 1 fully connected) is built. Its performances are tested in terms of accuracy on CIFAR-10 dataset (converted in TFRecords format). The model is coded using the new TensorFlow API (tf.estimator).
+In *cifar10_5cnn.py*, a 5-layer CNN (4 convolutional layers + 1 fully connected) is built. The model is coded using the new TensorFlow API (tf.estimator).
+Its performances are tested in terms of accuracy on CIFAR-10 dataset (converted in TFRecords format).
 
 ### STEP ONE: Covert CIFAR-10 in TFRecords
 To achieve this task, a script from TensorFlow Tutorial was used (is a standard script, often used by the community)
@@ -14,7 +14,7 @@ Another standard script to convert data in TFRecords can be found in TFSlim Libr
 $: python cifar10_5cnn.py
 ```
 
-Unfortunately, the training was done on my laptop CPU (2,5 GHz Intel Core i5). At the moment I do not have GPUs at my disposal.
+Unfortunately, the training was done on my laptop CPU (2,5 GHz Intel Core i5). At the moment I do not have any GPU at my disposal.
 
 Some details about the training:
 
