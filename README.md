@@ -25,9 +25,11 @@ Some details about the training:
 * Loss function is the Softmax-Cross-Entropy;
 * dropout_rate = 0.4 (only in TRAIN mode).
 
-In model_1, the four convolutional layers have [32,64,96,64] respectively. Its fully connected layer has units=1024.
+Two slightly different models were tested:
 
-In model_2, the four convolutional layers have [32,64,64,32] respectively. Its fully connected layer has units=512. This model was built in order to test a less complex model (less parameters).
+* In model_1, the four convolutional layers have [32,64,96,64] respectively. Its fully connected layer has units=1024.
+
+* In model_2, the four convolutional layers have [32,64,64,32] respectively. Its fully connected layer has units=512. This model was built in order to test a less complex model (less parameters).
 
 
 ### STEP THREE: Visualize results on TensorBoard
@@ -39,7 +41,7 @@ Then connect your browser on *0.0.0.0:6006*.
 ### RESULTS
 The following plots were generated using plots.ipynb.
 ![Accuracy](/plots/accuracy.png)
-Train accuracy is higher than test accuracy. This is a sign of overfitting. Unfortunately, I did not have enough computational time to better analyze the landscape of hyperparameters in order to reduce overfitting. Model_2 was just an attempt to reduce complexity (reducing the number of conv-filters).
+Train accuracy is higher than test accuracy. This is a signal of overfitting. Unfortunately, I did not have enough computational time to better analyze the landscape of hyperparameters in order to reduce overfitting. Model_2 was just an attempt to reduce complexity (reducing the number of conv-filters).
 
 ![Loss](/plots/loss.png)
 The loss function is not yet stabilized, so the training could have go on ...
