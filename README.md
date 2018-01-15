@@ -21,13 +21,13 @@ Some details about the training:
 * Training dataset size = 40000, test dataset size = 10000;
 * Images are in channels_last format (better for CPU);
 * Every layer has a ReLu activation function;
-* learning_rate = 0.0007 exponentially decaying every 10 epochs, batch_size = 256;
+* learning_rate = 0.007 exponentially decaying every 10 epochs, batch_size = 256;
 * Loss function is the Softmax-Cross-Entropy;
 * dropout_rate = 0.4 (only in TRAIN mode);
 
-In model_1, the four convolutional layers have $[32,64,96,64]$ respectively. Its fully connected layer has units$=1024$.
+In model_1, the four convolutional layers have [32,64,96,64] respectively. Its fully connected layer has units=1024.
 
-In model_2, the four convolutional layers have $[32,64,64,32]$ respectively. Its fully connected layer has units$=512$. This model was built in order to test a less complex model (less parameters).
+In model_2, the four convolutional layers have [32,64,64,32] respectively. Its fully connected layer has units=512. This model was built in order to test a less complex model (less parameters).
 
 
 ### STEP THREE: Visualize results on TensorBoard
