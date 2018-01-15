@@ -1,5 +1,5 @@
 # CNN CIFAR-10
-In *cifar10_5cnn.py*, a 5-layer CNN (4 convolutional layers + 1 fully connected) is built. The model is coded using the new TensorFlow API (tf.estimator).
+In *cifar10_5cnn.py*, a 5-layer CNN (4 convolutional layers + 1 fully connected) is built. The model is coded using the new TensorFlow 1.4.0 API (tf.estimator).
 Its performances are tested in terms of accuracy on CIFAR-10 dataset (converted in TFRecords format).
 
 ### STEP ONE: Covert CIFAR-10 in TFRecords
