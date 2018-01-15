@@ -32,9 +32,9 @@ In model_2, the four convolutional layers have [32,64,64,32] respectively. Its f
 
 ### STEP THREE: Visualize results on TensorBoard
 ```
-$ tensorboard --logdir=./folder_where_checkpoints_are_stored
+$ tensorboard --logdir=./checks-cifar-latest
 ```
-Then connect your browser on $0.0.0.0:6006$
+Then connect your browser on *0.0.0.0:6006*.
 
 ### RESULTS
 The following plots were generated using plots.ipynb.
@@ -42,3 +42,4 @@ The following plots were generated using plots.ipynb.
 Train accuracy is higher than test accuracy. This is a sign of overfitting. Unfortunately, I did not have enough computational time to better analyze the landscape of hyperparameters in order to reduce overfitting. Model_2 was just an attempt to reduce complexity (reducing the number of conv-filters).
 
 ![Loss](/plots/loss.png)
+The loss function is not yet stabilized, so the training could have go on ...
