@@ -192,7 +192,7 @@ def data_input_fn(filenames, batch_size=1000, shuffle=False):
         if shuffle:
             dataset = dataset.shuffle(buffer_size=10000)
 
-        dataset = dataset.repeat(None) 
+        dataset = dataset.repeat(None)
         dataset = dataset.batch(batch_size)
 
         iterator = dataset.make_one_shot_iterator()
@@ -227,7 +227,7 @@ if __name__ == '__main__':
         save_summary_steps=20)
 
     hparams = tf.contrib.training.HParams(
-        learning_rate=0.0007,
+        learning_rate=0.007,
         dropout_rate=0.4,
         data_directory=os.path.expanduser(args.data_directory),
         print_shape=FLAGS.print_shape)
