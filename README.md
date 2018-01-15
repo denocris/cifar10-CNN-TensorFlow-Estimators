@@ -7,7 +7,7 @@ To achieve this task, a script from TensorFlow Tutorial was used (is a standard 
 ```
 $: python generate_cifar10_tfrecords.py
 ```
-Another standard script to convert data in TFRecords can be found in TFSlim Library. Before running the script, different classes must be organized in different folders.
+Another standard script to convert data in TFRecords can be found in TFSlim Library. Before running the latter script, different classes must be organized in different folders.
 
 ### STEP TWO: Train and Evaluate the model
 ```
@@ -21,7 +21,7 @@ Some details about the training:
 * Training dataset size = 40000, test dataset size = 10000;
 * Images are in channels_last format (better for CPU);
 * Every layer has a ReLu activation function;
-* learning_rate = 0.007 exponentially decaying every 10 epochs, batch_size = 256;
+* learning_rate = 0.0007 exponentially decaying every 10 epochs, batch_size = 256;
 * Loss function is the Softmax-Cross-Entropy;
 * dropout_rate = 0.4 (only in TRAIN mode);
 

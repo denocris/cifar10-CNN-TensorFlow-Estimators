@@ -226,7 +226,7 @@ if __name__ == '__main__':
         save_summary_steps=20)
 
     hparams = tf.contrib.training.HParams(
-        learning_rate=0.007,
+        learning_rate=0.0007,
         dropout_rate=0.4,
         data_directory=os.path.expanduser(args.data_directory),
         print_shape=False)
