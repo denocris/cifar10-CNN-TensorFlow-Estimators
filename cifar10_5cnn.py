@@ -1,8 +1,10 @@
 """ Exercise: 5 layer CNN on Cifar-10 (TFRecords) using tf.estimator API
+
+    To run the code:
+    $: python cifar10_5cnn.py
+
     Results can be seen on Tensorboard:
-    $ tensorboard --logdir=./folder_where_checkpoints_are_stored
-
-
+    $: tensorboard --logdir=./folder_where_checkpoints_are_stored
 """
 
 from argparse import ArgumentParser
@@ -204,9 +206,6 @@ if __name__ == '__main__':
 
     tf.logging.set_verbosity(tf.logging.INFO)
 
-    FLAGS = tf.app.flags.FLAGS
-
-    tf.app.flags.DEFINE_string('print_shape', False, """Prints layers output shape""")
 
     parser = ArgumentParser()
     parser.add_argument(
@@ -230,7 +229,7 @@ if __name__ == '__main__':
         learning_rate=0.007,
         dropout_rate=0.4,
         data_directory=os.path.expanduser(args.data_directory),
-        print_shape=FLAGS.print_shape)
+        print_shape=False)
 
 
     mnist_classifier = tf.estimator.Estimator(
